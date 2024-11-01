@@ -1,58 +1,58 @@
 # Ignore Java class files
-*.class
+**/.class
 
 # Ignore Gradle files
-.gradle/
+**/.gradle/
 
 # Ignore Maven files
-target/
+**/target/
 
 # Ignore Gradle Wrapper
-gradle/wrapper/gradle-wrapper.jar
-gradle/wrapper/gradle-wrapper.properties
+**/gradle/wrapper/gradle-wrapper.jar
+**/gradle/wrapper/gradle-wrapper.properties
 
 # Ignore Maven Wrapper
-mvnw
-mvnw.cmd
-.mvn/
+**/mvnw
+**/mvnw.cmd
+**/.mvn/
 
 # Ignore Eclipse files
-.classpath
-.project
-.settings/
+**/.classpath
+**/.project
+**/.settings/
 
 # Ignore IntelliJ files
-*.iml
-*.ipr
-*.iws
-.idea/
+**/.iml
+**/.ipr
+**/.iws
+**/.idea/
 
 # Ignore NetBeans files
-nbproject/
+**/nbproject/
 
 # Ignore Visual Studio Code files
-.vscode/
+**/.vscode/
 
 # Ignore build files
-build/
-out/
+**/build/
+**/out/
 
 # Ignore log files
-*.log
+**/.log
 
 # Ignore macOS files
-.DS_Store
+**/.DS_Store
 
 # Ignore Windows files
-Thumbs.db
-ehthumbs.db
+**/Thumbs.db
+**/ehthumbs.db
 
 # Ignore Linux files
-lost+found/
+**/lost+found/
 
 # Ignore temporary files
-*.tmp
-*.temp
-*.bak
-*.swp
-*~
+**/.tmp
+**/.temp
+**/.bak
+**/.swp
+**/~
