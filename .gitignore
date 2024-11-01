@@ -1,1 +1,58 @@
-/.DS_Store
+# Ignore Java class files
+*.class
+
+# Ignore Gradle files
+.gradle/
+
+# Ignore Maven files
+target/
+
+# Ignore Gradle Wrapper
+gradle/wrapper/gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties
+
+# Ignore Maven Wrapper
+mvnw
+mvnw.cmd
+.mvn/
+
+# Ignore Eclipse files
+.classpath
+.project
+.settings/
+
+# Ignore IntelliJ files
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Ignore NetBeans files
+nbproject/
+
+# Ignore Visual Studio Code files
+.vscode/
+
+# Ignore build files
+build/
+out/
+
+# Ignore log files
+*.log
+
+# Ignore macOS files
+.DS_Store
+
+# Ignore Windows files
+Thumbs.db
+ehthumbs.db
+
+# Ignore Linux files
+lost+found/
+
+# Ignore temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
