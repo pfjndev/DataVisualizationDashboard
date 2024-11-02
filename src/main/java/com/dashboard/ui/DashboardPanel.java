@@ -2,7 +2,6 @@ package com.dashboard.ui;
 
 import javax.swing.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import java.awt.*;
@@ -15,14 +14,14 @@ import com.dashboard.graphics.visualizations.LineChart;
 public class DashboardPanel extends JPanel {
 
     // List of data models loaded from the file
-    private List<DataModel> dataModels = new ArrayList<>();
+    private List<DataModel> dataModels;
 
     private BarChart barChart = new BarChart();
     private PieChart pieChart = new PieChart();
     private LineChart lineChart = new LineChart();
 
     public DashboardPanel(List<DataModel> dataModels) {
-
+        this.dataModels = dataModels;
         setLayout(new BorderLayout());
         setBackground(Color.WHITE); // Background for better visual clarity
         
