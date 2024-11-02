@@ -81,12 +81,12 @@ public class ExcelParser {
                         .orElse(null);
                 
                         if (satisfactionBreakdownsModel != null) {
-                            List<Double> satisfactionBreakdown = new ArrayList<>();
+                            List<Double> satisfactionBreakdownList = new ArrayList<>();
                             
                             for (int i = 1; i < row.getLastCellNum(); i++) {
-                                satisfactionBreakdown.add(row.getCell(i).getNumericCellValue());
+                                satisfactionBreakdownList.add(row.getCell(i).getNumericCellValue());
                             }
-                            satisfactionBreakdownsModel.setSatisfactionBreakdown(satisfactionBreakdown);
+                            satisfactionBreakdownsModel.setSatisfactionBreakdown(satisfactionBreakdownList);
                             
                         }
             }
