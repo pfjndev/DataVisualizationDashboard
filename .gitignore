@@ -56,14 +56,3 @@
 **/.bak
 **/.swp
 **/~
-
-src/resources/dataFiles/April_Dashboard_Data.xlsx
-src/resources/dataFiles/February_Dashboard_Data.xlsx
-src/resources/dataFiles/January_Dashboard_Data.xlsx
-src/resources/dataFiles/March_Dashboard_Data.xlsx
-
-target/classes/com/dashboard/data/ExcelParser.class
-target/classes/com/dashboard/graphics/shapes/ShapeFactory.class
-target/classes/com/dashboard/ui/DashboardPanel.class
-target/classes/com/dashboard/ui/Toolbar.class
-
