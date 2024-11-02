@@ -27,9 +27,8 @@ public class DashboardFrame extends JFrame {
         setResizable(true);
 
         // Initialize and add components
-        setJMenuBar(new MenuBar()); // Add the custom menu bar
-        add(new Toolbar(dataModels), BorderLayout.NORTH); // Add toolbar at the top
-        add(new DashboardPanel(dataModels), BorderLayout.CENTER); // Central dashboard panel
+        setJMenuBar(new MenuBar(dataModels)); // Menu bar
+        add(new DashboardPanel(dataModels), BorderLayout.CENTER);
     }
 }
 
