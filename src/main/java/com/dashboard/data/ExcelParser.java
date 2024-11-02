@@ -56,16 +56,16 @@ public class ExcelParser {
             for (Row row : dailyMetricsSheet) {
                 if (row.getRowNum() == 0) continue; // Skip header row
 
-                DataModel model = new DataModel();
+                DataModel dailyMetricsModel = new DataModel();
                 // Date in format ("dd/mm/yy")
-                model.setDate(row.getCell(0).getDateCellValue());
-                model.setProductName(row.getCell(1).getStringCellValue());
-                model.setAverageResponseTime(row.getCell(2).getNumericCellValue());
-                model.setCustomerSatisfactionScore(row.getCell(3).getNumericCellValue());
-                model.setCustomerEffortScore(row.getCell(4).getNumericCellValue());
-                model.setNetPromoterScore(row.getCell(5).getNumericCellValue());
+                dailyMetricsModel.setDate(row.getCell(0).getDateCellValue());
+                dailyMetricsModel.setProductName(row.getCell(1).getStringCellValue());
+                dailyMetricsModel.setAverageResponseTime(row.getCell(2).getNumericCellValue());
+                dailyMetricsModel.setCustomerSatisfactionScore(row.getCell(3).getNumericCellValue());
+                dailyMetricsModel.setCustomerEffortScore(row.getCell(4).getNumericCellValue());
+                dailyMetricsModel.setNetPromoterScore(row.getCell(5).getNumericCellValue());
 
-                dataModels.add(model);
+                dataModels.add(dailyMetricsModel);
             }
 
             // Satisfaction breakdown is in the second sheet of the workbook
@@ -75,18 +75,18 @@ public class ExcelParser {
                 if (row.getRowNum() == 0) continue; // Skip header row
 
                 // Find the data model with the matching product name
-                DataModel model = dataModels.stream()
+                DataModel satisfactionBreakdownsModel = dataModels.stream()
                         .filter(dataModel -> dataModel.getProductName().equals(row.getCell(0).getStringCellValue()))
                         .findFirst()
                         .orElse(null);
                 
-                        if (model != null) {
+                        if (satisfactionBreakdownsModel != null) {
                             List<Double> satisfactionBreakdown = new ArrayList<>();
                             
                             for (int i = 1; i < row.getLastCellNum(); i++) {
                                 satisfactionBreakdown.add(row.getCell(i).getNumericCellValue());
                             }
-                            model.setSatisfactionBreakdown(satisfactionBreakdown);
+                            satisfactionBreakdownsModel.setSatisfactionBreakdown(satisfactionBreakdown);
                             
                         }
             }

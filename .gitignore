@@ -1,37 +1,37 @@
-# Ignore Java class files
-**/.class
-
-# Ignore Gradle files
-**/.gradle/
-
-# Ignore Maven files
-**/target/
-
-# Ignore Gradle Wrapper
-**/gradle/wrapper/gradle-wrapper.jar
-**/gradle/wrapper/gradle-wrapper.properties
-
-# Ignore Maven Wrapper
-**/mvnw
-**/mvnw.cmd
-**/.mvn/
+# Ignore Visual Studio Code files
+**/.vscode/
 
 # Ignore Eclipse files
 **/.classpath
 **/.project
 **/.settings/
 
+# Ignore NetBeans files
+**/nbproject/
+
+# Ignore Maven Wrapper
+**/mvnw
+**/mvnw.cmd
+**/.mvn/
+
+# Ignore Maven files
+**/target/
+
+# Ignore Java class files
+**/.class
+
+# Ignore Gradle Wrapper
+**/gradle/wrapper/gradle-wrapper.jar
+**/gradle/wrapper/gradle-wrapper.properties
+
+# Ignore Gradle files
+**/.gradle/
+
 # Ignore IntelliJ files
 **/.iml
 **/.ipr
 **/.iws
 **/.idea/
-
-# Ignore NetBeans files
-**/nbproject/
-
-# Ignore Visual Studio Code files
-**/.vscode/
 
 # Ignore build files
 **/build/
