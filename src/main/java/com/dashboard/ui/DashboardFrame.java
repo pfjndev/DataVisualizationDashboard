@@ -6,12 +6,11 @@ import com.dashboard.data.DataModel;
 
 import java.awt.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class DashboardFrame extends JFrame {
     // List of data models loaded from the file
-    private List<DataModel> dataModels = new ArrayList<>();
+    private DataModel dataModel = new DataModel();
+    private DashboardPanel dashboardPanel = new DashboardPanel(dataModel);
+    private MenuBar menuBar = new MenuBar(dataModel, dashboardPanel);
 
     public DashboardFrame() {
         // Set title and basic properties
@@ -27,8 +26,8 @@ public class DashboardFrame extends JFrame {
         setResizable(true);
 
         // Initialize and add components
-        setJMenuBar(new MenuBar(dataModels)); // Menu bar
-        add(new DashboardPanel(dataModels), BorderLayout.CENTER);
+        setJMenuBar(menuBar);
+        add(dashboardPanel, BorderLayout.CENTER);
     }
 }
 
