@@ -5,8 +5,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Excel parser for the dashboard application.
@@ -32,21 +30,31 @@ import java.util.List;
  *     - Column 5: Score 4 (%)
  *     - Column 6: Score 5 (%)
  *
- * - Date format: "yyyy-mm-dd hh:mm:ss"
- * 
- * @version 1.0
+ * - Date format: "dd-mm-yyyy"
+ * - Example:
+ * File name: April_Dashboard_Data.xlsx
+ * Contents:
+ * Date         Product	    Average Response Time (ms)	Customer Satisfaction Score (1-5)	Customer Effort Score (1-5)	Net Promoter Score
+ * 01-01-2024	Product A	2895	                    4.11	                            4.28	                    99
+ * 02-01-2024	Product D	1716	                    3.12	                            2.67	                    9
+ * 05-01-2024	Product C	941 	                    3.12	                            3.27	                    -19
+ * 10-01-2024	Product B	2069	                    3.07 	                            2.58                        -14
+ *   
+ * @version 2.0
  * @author 1705125 - PFJN
  * 
  * @param file The Excel file to parse
  * 
- * @return A list of data models containing the product data
+ * @return A Data model object containing the parsed data from the Excel file
  * 
- * @see ExcelParser
+ * @throws IOException If an error occurs while reading the Excel file
+ * 
+ * @see DataModel
  */
 public class ExcelParser {
 
-    public List<DataModel> parseExcelFile(File file){
-        List<DataModel> dataModels = new ArrayList<>();
+    public DataModel parseExcelFile(File file) {
+        DataModel dataModel = new DataModel();
 
         try (FileInputStream fis = new FileInputStream(file);
             Workbook workbook = new XSSFWorkbook(fis)) {
@@ -55,17 +63,25 @@ public class ExcelParser {
 
             for (Row row : dailyMetricsSheet) {
                 if (row.getRowNum() == 0) continue; // Skip header row
+                // Set the date of the data
+                dataModel.setDate(row.getCell(0).getDateCellValue());
+                dataModel.setDate(row.getCell(0).getDateCellValue());
+                // Set additional date helpers
+                dataModel.setMonthsInYear(row.getCell(0).getDateCellValue());
+                dataModel.setMonthsNames(row.getCell(0).getDateCellValue());
+                dataModel.setWeeksInYear(row.getCell(0).getDateCellValue());
+                dataModel.setWeeksInMonth(row.getCell(0).getDateCellValue());
+                dataModel.setDaysInMonth(row.getCell(0).getDateCellValue());
+                dataModel.setDaysInWeek(row.getCell(0).getDateCellValue());
+                // Set the product data
+                dataModel.productData.setProductName(row.getCell(1).getStringCellValue());
+                dataModel.productData.setAverageResponseTime(row.getCell(2).getNumericCellValue());
+                dataModel.productData.setCustomerSatisfactionScore(row.getCell(3).getNumericCellValue());
+                dataModel.productData.setCustomerEffortScore(row.getCell(4).getNumericCellValue());
+                dataModel.productData.setNetPromoterScore(row.getCell(5).getNumericCellValue());
+                // The average response time over the month and customer satisfaction score over the month
+                // are calculated by the data model based on the daily metrics and are not set here
 
-                DataModel dailyMetricsModel = new DataModel();
-                // Date in format ("dd/mm/yy")
-                dailyMetricsModel.setDate(row.getCell(0).getDateCellValue());
-                dailyMetricsModel.setProductName(row.getCell(1).getStringCellValue());
-                dailyMetricsModel.setAverageResponseTime(row.getCell(2).getNumericCellValue());
-                dailyMetricsModel.setCustomerSatisfactionScore(row.getCell(3).getNumericCellValue());
-                dailyMetricsModel.setCustomerEffortScore(row.getCell(4).getNumericCellValue());
-                dailyMetricsModel.setNetPromoterScore(row.getCell(5).getNumericCellValue());
-
-                dataModels.add(dailyMetricsModel);
             }
 
             // Satisfaction breakdown is in the second sheet of the workbook
@@ -73,27 +89,17 @@ public class ExcelParser {
 
             for (Row row : satisfactionBreakdownSheet) {
                 if (row.getRowNum() == 0) continue; // Skip header row
-
-                // Find the data model with the matching product name
-                DataModel satisfactionBreakdownsModel = dataModels.stream()
-                        .filter(dataModel -> dataModel.getProductName().equals(row.getCell(0).getStringCellValue()))
-                        .findFirst()
-                        .orElse(null);
-                
-                        if (satisfactionBreakdownsModel != null) {
-                            List<Double> satisfactionBreakdownList = new ArrayList<>();
-                            
-                            for (int i = 1; i < row.getLastCellNum(); i++) {
-                                satisfactionBreakdownList.add(row.getCell(i).getNumericCellValue());
-                            }
-                            satisfactionBreakdownsModel.setSatisfactionBreakdown(satisfactionBreakdownList);
-                            
-                        }
+                // Set the satisfaction breakdown data for the corresponding product name
+                if (dataModel.productData.getProductName().equals(row.getCell(0).getStringCellValue())) {
+                    for (int i = 1; i < row.getLastCellNum(); i++) {
+                        dataModel.productData.setCustomerSatisfactionBreakDownPercentage(row.getCell(i).getNumericCellValue());
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return dataModels;
+        return dataModel;
     }
 }
