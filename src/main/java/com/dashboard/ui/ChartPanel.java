@@ -1,24 +1,19 @@
 package com.dashboard.ui;
 
 import javax.swing.*;
+
 import java.awt.*;
 
 public class ChartPanel extends JPanel {
-    private final Chart chart;  // Assume Chart is an interface for BarChart, LineChart, etc.
+    private final JComponent chart;
 
-    public ChartPanel(Chart chart) {
+    public ChartPanel(JComponent chart) {
         this.chart = chart;
-    }
+        setPreferredSize(new Dimension(400, 300));
+        setLayout(new BorderLayout());
+        // Add a border around the panel
+        setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-
-        // Set up rendering hints for quality
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        // Draw the chart within the panel’s bounds
-        chart.draw(g2, 0, 0, getWidth(), getHeight());
+        add(chart, BorderLayout.CENTER);
     }
 }
