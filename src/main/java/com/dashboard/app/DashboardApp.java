@@ -7,6 +7,7 @@ public class DashboardApp {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             DashboardFrame frame = new DashboardFrame();
+            frame.pack();
             frame.setVisible(true);
         });
     }
