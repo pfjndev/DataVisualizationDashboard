@@ -23,11 +23,12 @@ public class DashboardPanel extends JPanel {
     }
 
     private void loadInitialData() {
-        String defaultFolderPath = "path/to/default/folder";
-        File folder = new File(defaultFolderPath);
+        // Load data from default folder
+        String folderPath = dashboardData.getDirectoryPath();
+        File folder = new File(folderPath);
 
         if (folder.exists() && folder.isDirectory()) {
-            this.dashboardData = DataLoader.loadDashboardData(defaultFolderPath);
+            this.dashboardData = DataLoader.loadDashboardData(folderPath);
         } else {
             JOptionPane.showMessageDialog(this, "Data files not found. Please load data manually.", 
                                           "File Not Found", JOptionPane.WARNING_MESSAGE);
@@ -57,6 +58,7 @@ public class DashboardPanel extends JPanel {
                 barChart.updateData(filteredMetrics);
             }
         }
+        revalidate();
         repaint();
     }
 }

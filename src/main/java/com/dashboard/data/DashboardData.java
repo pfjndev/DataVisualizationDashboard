@@ -9,10 +9,33 @@ public class DashboardData {
     private final List<DailyMetric> allDailyMetrics;
     private final List<SatisfactionScore> allSatisfactionScores;
 
+    private final String defaultDirectory = "src/resources/dataFiles";
+    private String userDirectory = System.getProperty("user.dir"); // User chosen directory path
+
     public DashboardData() {
         this.monthlyData = new HashMap<>();
         this.allDailyMetrics = new ArrayList<>();
         this.allSatisfactionScores = new ArrayList<>();
+    }
+    
+    public String getDirectoryPath() {
+        return userDirectory != null ? userDirectory : defaultDirectory;
+    }
+
+    public void setDirectoryPath(String path) {
+        userDirectory = path;
+    }
+    
+    public String getUserDirectoryPath() {
+        return userDirectory;
+    }
+    
+    public void setUserDirectoryPath(String path) {
+        userDirectory = path;
+    }
+    
+    public String getDefaultDirectoryPath() {
+        return defaultDirectory;
     }
 
     public void addMonthlyData(String month, MonthlyData data) {
@@ -33,7 +56,7 @@ public class DashboardData {
     }
 
     public List<SatisfactionScore> getSatisfactionScoresByPeriod(LocalDate start, LocalDate end) {
-        // Filter logic if applicable
+        // Filter logic not applicable - no date field in SatisfactionScore
         return allSatisfactionScores;
     }
 }

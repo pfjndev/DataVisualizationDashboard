@@ -17,8 +17,10 @@ public class DataLoader {
     public static DashboardData loadDashboardData(String directoryPath) {
         DashboardData dashboardData = new DashboardData();
         File folder = new File(directoryPath);
-
+        // Load all .xlsx files in the directory
         if (folder.exists() && folder.isDirectory()) {
+            // Retain last used directory for future use
+            dashboardData.setDirectoryPath(directoryPath);
             for (File file : Objects.requireNonNull(folder.listFiles())) {
                 if (file.getName().endsWith(".xlsx")) {
                     MonthlyData monthlyData = loadMonthlyData(file);
