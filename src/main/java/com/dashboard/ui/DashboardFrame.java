@@ -2,15 +2,12 @@ package com.dashboard.ui;
 
 import javax.swing.*;
 
-import com.dashboard.data.DataModel;
-
 import java.awt.*;
 
 public class DashboardFrame extends JFrame {
-    // List of data models loaded from the file
-    private DataModel dataModel = DataModel.getDataModel();
-    private DashboardPanel dashboardPanel = new DashboardPanel(dataModel);
-    private MenuBar menuBar = new MenuBar(dataModel, dashboardPanel);
+
+    private DashboardPanel dashboardPanel = new DashboardPanel();
+    private MenuBar menuBar = new MenuBar();
 
     public DashboardFrame() {
         // Set title and basic properties
@@ -24,6 +21,8 @@ public class DashboardFrame extends JFrame {
         setDefaultLookAndFeelDecorated(true);
         // Allow resizing
         setResizable(true);
+
+        setBackground(Color.BLACK);
 
         // Initialize and add components
         setJMenuBar(menuBar);
