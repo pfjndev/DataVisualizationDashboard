@@ -14,7 +14,7 @@ public class LineChart extends JComponent {
     private int PADDING = 40; // Panel padding for chart
     private int LABEL_PADDING = 20; // Padding for labels
 
-    private DataModel dataModel = new DataModel();
+    private DataModel dataModel = DataModel.getDataModel();
     private ProductData productData = dataModel.getProductData();
 
     public LineChart(DataModel dataModel) {
@@ -107,13 +107,11 @@ public class LineChart extends JComponent {
 
         int yLabel = panelHeight - PADDING;
         for (int i = 0; i < dataModel.getData().size(); i++) {
-            for (Map.Entry<Date, Map<String, ProductData>> outerEntry : dataModel.getData().entrySet()) {
-                for (Map.Entry<String, ProductData> entry : outerEntry.getValue().entrySet()) {
-                    ProductData productData = entry.getValue();
-                    double avgResponseTime = productData.getAverageResponseTime();
-                    g2d.drawString(String.valueOf((int) avgResponseTime), PADDING - yLabelWidth, yLabel);
-                    yLabel -= (panelHeight - 2 * PADDING) / dataModel.getData().size();
-                }
+            for (Map.Entry<Date, ProductData> outerEntry : dataModel.getData().entrySet()) {
+                ProductData productData = outerEntry.getValue();
+                double avgResponseTime = productData.getAverageResponseTime();
+                g2d.drawString(String.valueOf((int) avgResponseTime), PADDING - yLabelWidth, yLabel);
+                yLabel -= (panelHeight - 2 * PADDING) / dataModel.getData().size();
             }
         }
 
@@ -123,28 +121,24 @@ public class LineChart extends JComponent {
 
 
         Path2D path = new Path2D.Double();
-        for (Map.Entry<Date, Map<String, ProductData>> outerEntry : dataModel.getData().entrySet()) {
-            for (Map.Entry<String, ProductData> entry : outerEntry.getValue().entrySet()) {
-                ProductData productData = entry.getValue();
+        for (Map.Entry<Date, ProductData> outerEntry : dataModel.getData().entrySet()) {
+            ProductData productData = outerEntry.getValue();
+            double avgResponseTime = productData.getAverageResponseTime();
 
-                double avgResponseTime = productData.getAverageResponseTime();
-                int x1 = PADDING + (panelWidth - 2 * PADDING) / dataModel.getData().size();
-                int y1 = (int) ((avgResponseTime - minAvgResponseTime) / (maxAvgResponseTime - minAvgResponseTime) * (panelHeight - 2 * PADDING));
+            int x1 = PADDING + (panelWidth - 2 * PADDING) / dataModel.getData().size();
+            int y1 = (int) ((avgResponseTime - minAvgResponseTime) / (maxAvgResponseTime - minAvgResponseTime) * (panelHeight - 2 * PADDING));
 
-                path.moveTo(x1, y1);
-                path.lineTo(x2, y2);
+            path.moveTo(x1, y1);
+            path.lineTo(x2, y2);
 
-                GradientPaint gradient = new GradientPaint(x1, y1, new Color(y1), x2, y2, new Color(y2));
-                g2d.setPaint(gradient);
-                g2d.draw(path);
+            GradientPaint gradient = new GradientPaint(x1, y1, new Color(y1), x2, y2, new Color(y2));
+            g2d.setPaint(gradient);
+            g2d.draw(path);
 
-                /* g2d.setColor(Color.WHITE);
-                g2d.drawString(productData.getProductName(), x1, panelHeight - 5); */
+            /* g2d.setColor(Color.WHITE);
+            g2d.drawString(productData.getProductName(), x1, panelHeight - 5); */
 
-            }
         }
-
-
     }
 
     // Method to update data and repaint chart

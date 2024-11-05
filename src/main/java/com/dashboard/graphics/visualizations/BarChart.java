@@ -1,17 +1,16 @@
 package com.dashboard.graphics.visualizations;
 
-import com.dashboard.data.DataModel;
-import com.dashboard.data.ProductData;
-
 import javax.swing.JComponent;
+
+import com.dashboard.data.DailyMetric;
+
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.Date;
 import java.util.Map;
+import java.util.List;
 
 public class BarChart extends JComponent {
-    private DataModel dataModel = new DataModel();
-    private ProductData productData = dataModel.getProductData();
 
     private int barWidth = 50;
     private int PADDING = barWidth;
@@ -39,9 +38,8 @@ public class BarChart extends JComponent {
 
         // Iterate through each product and draw bars
         for (int i = 0; i < dataModel.getData().size(); i++) {
-            for (Map.Entry<Date, Map<String, ProductData>> outerEntry : dataModel.getData().entrySet()) {
-                for (Map.Entry<String, ProductData> entry : outerEntry.getValue().entrySet()) {
-                ProductData productData = entry.getValue();
+            for (Map.Entry<Date, ProductData> outerEntry : dataModel.getData().entrySet()) {
+                ProductData productData = outerEntry.getValue();
                 double avgResponseTime = productData.getAverageResponseTime();
                 int barHeight = (int) ((avgResponseTime - minResponseTime) / (maxResponseTime - minResponseTime) * panelHeight);
                 int x = i * barWidth;
@@ -57,15 +55,10 @@ public class BarChart extends JComponent {
                 g2d.drawString(productData.getProductName(), x, panelHeight - 5);
 
             }
-
         }
-        
-        }
-
     }
     
-    public void setData(DataModel dataModel) {
-        this.dataModel = dataModel;
-        repaint();
+    public void updateData(List<DailyMetric> filteredMetrics) {
+
     }
 }

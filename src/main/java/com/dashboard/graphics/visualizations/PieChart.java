@@ -11,7 +11,7 @@ import javax.swing.JComponent;
 
 public class PieChart extends JComponent {
 
-    private DataModel dataModel = new DataModel();
+    private DataModel dataModel = DataModel.getDataModel();
     private ProductData productData = dataModel.getProductData();
 
     private int PADDING = 10;

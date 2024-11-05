@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class DashboardFrame extends JFrame {
     // List of data models loaded from the file
-    private DataModel dataModel = new DataModel();
+    private DataModel dataModel = DataModel.getDataModel();
     private DashboardPanel dashboardPanel = new DashboardPanel(dataModel);
     private MenuBar menuBar = new MenuBar(dataModel, dashboardPanel);
 

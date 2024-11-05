@@ -16,4 +16,8 @@ public class ChartPanel extends JPanel {
 
         add(chart, BorderLayout.CENTER);
     }
+
+    public JComponent getChart() {
+        return chart;
+    }
 }

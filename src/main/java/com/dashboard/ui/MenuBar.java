@@ -9,15 +9,13 @@ import java.io.File;
 import java.io.IOException;
 
 public class MenuBar extends JMenuBar {
-    private DataModel dataModel = new DataModel();
-    private DashboardPanel dashboardPanel = new DashboardPanel(dataModel);
-
+    
     public MenuBar(DataModel dataModel, DashboardPanel dashboardPanel) {
 
         JMenu fileMenu = new JMenu("File");
 
         JMenuItem loadData = new JMenuItem("Load Data");
-        loadData.addActionListener(e -> loadData());
+        loadData.addActionListener(e -> loadData(dataModel, dashboardPanel));
 
         JMenuItem exportData = new JMenuItem("Export Data");
         JMenuItem exit = new JMenuItem("Exit");
@@ -30,20 +28,33 @@ public class MenuBar extends JMenuBar {
         add(fileMenu);
     }
 
-    private void loadData() {
-        JFileChooser fileChooser = new JFileChooser();
-        int result = fileChooser.showOpenDialog(null);
+    private void loadData(DataModel dataModel, DashboardPanel dashboardPanel) {
+        String lastUsedDirectory = "";
 
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Load Excel Data");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+
+        // Set the last used directory
+        if (!lastUsedDirectory.isEmpty()) {
+            fileChooser.setCurrentDirectory(new File(lastUsedDirectory));
+        }
+
+        int result = fileChooser.showOpenDialog(null);
         if (result == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
+            // Save the last used directory
+            lastUsedDirectory = fileChooser.getCurrentDirectory().getAbsolutePath();
+
             try {
                 DataLoader dataLoader = new DataLoader();
                 dataLoader.loadData(file, loadedDataModel -> {
                     // If the loading is successful, update the data model
-                    this.dataModel = loadedDataModel;
+                    dataModel.setData(loadedDataModel);
                     // Update the data model in the dashboard panel
                     dashboardPanel.setDataModel(dataModel);
-
+                    
                     // Notify the user
                     JOptionPane.showMessageDialog(null, "Data loaded successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
 
