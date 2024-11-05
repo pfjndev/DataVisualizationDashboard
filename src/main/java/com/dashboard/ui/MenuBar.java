@@ -2,20 +2,19 @@ package com.dashboard.ui;
 
 import javax.swing.*;
 
-import com.dashboard.data.DataLoader;
-import com.dashboard.data.DataModel;
-
 import java.io.File;
-import java.io.IOException;
+
+import com.dashboard.data.DataLoader;
+import com.dashboard.utils.FileUtils;
 
 public class MenuBar extends JMenuBar {
-    
-    public MenuBar(DataModel dataModel, DashboardPanel dashboardPanel) {
 
-        JMenu fileMenu = new JMenu("File");
+    public MenuBar() {
 
-        JMenuItem loadData = new JMenuItem("Load Data");
-        loadData.addActionListener(e -> loadData(dataModel, dashboardPanel));
+        JMenu fileMenu = new JMenu("Data");
+
+        JMenuItem loadData = new JMenuItem("Load Data Folder");
+        loadData.addActionListener(e -> selectDataFolder());
 
         JMenuItem exportData = new JMenuItem("Export Data");
         JMenuItem exit = new JMenuItem("Exit");
@@ -28,44 +27,22 @@ public class MenuBar extends JMenuBar {
         add(fileMenu);
     }
 
-    private void loadData(DataModel dataModel, DashboardPanel dashboardPanel) {
-        String lastUsedDirectory = "";
-
+    private void selectDataFolder() {
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Load Excel Data");
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setAcceptAllFileFilterUsed(false);
-
-        // Set the last used directory
-        if (!lastUsedDirectory.isEmpty()) {
-            fileChooser.setCurrentDirectory(new File(lastUsedDirectory));
-        }
-
-        int result = fileChooser.showOpenDialog(null);
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int result = fileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            // Save the last used directory
-            lastUsedDirectory = fileChooser.getCurrentDirectory().getAbsolutePath();
-
+            File selectedFolder = fileChooser.getSelectedFile();
             try {
-                DataLoader dataLoader = new DataLoader();
-                dataLoader.loadData(file, loadedDataModel -> {
-                    // If the loading is successful, update the data model
-                    dataModel.setData(loadedDataModel);
-                    // Update the data model in the dashboard panel
-                    dashboardPanel.setDataModel(dataModel);
-                    
-                    // Notify the user
-                    JOptionPane.showMessageDialog(null, "Data loaded successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-                }, errorMessage -> {
-                    JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
-                });
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            } catch (Exception exception) {
-                exception.printStackTrace();
+                FileUtils.showLoadingIndicator(true, this);
+                DataLoader.loadDashboardData(selectedFolder.getAbsolutePath());
+                JOptionPane.showMessageDialog(this, "Data loaded successfully.");
+                FileUtils.showLoadingIndicator(false, this);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error loading data: " + e.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
+
         }
     }
 }
