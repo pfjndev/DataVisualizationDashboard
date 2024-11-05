@@ -7,6 +7,8 @@ import com.dashboard.data.DashboardData;
 import com.dashboard.data.DataLoader;
 import com.dashboard.data.MonthlyData;
 import com.dashboard.graphics.visualizations.BarChart;
+import com.dashboard.graphics.visualizations.LineChart;
+import com.dashboard.graphics.visualizations.PieChart;
 
 import java.awt.*;
 import java.io.File;
@@ -15,6 +17,8 @@ import java.util.List;
 
 public class DashboardPanel extends JPanel {
     private DashboardData dashboardData;
+    // List of panels and their respective charts
+    private List<ChartPanel> chartPanels;
 
     public DashboardPanel() {
         setLayout(new GridLayout(2, 2));
@@ -39,23 +43,39 @@ public class DashboardPanel extends JPanel {
         MonthlyData januaryData = dashboardData.getMonthlyData("January");
         
         if (januaryData != null) {
-            BarChart barChart = new BarChart(januaryData.getDailyMetrics());
+            List<DailyMetric> metrics = januaryData.getDailyMetrics();
+            
+            BarChart barChart = new BarChart(metrics);
             ChartPanel barChartPanel = new ChartPanel(barChart);
-            add(barChartPanel);
+            chartPanels.add(barChartPanel);
 
-            // Add other charts here
+            LineChart lineChart = new LineChart(metrics);
+            ChartPanel lineChartPanel = new ChartPanel(lineChart);
+            chartPanels.add(lineChartPanel);
+
+            PieChart pieChart = new PieChart(metrics);
+            ChartPanel pieChartPanel = new ChartPanel(pieChart);
+            chartPanels.add(pieChartPanel);
+        }
+
+        // Add all the panels in the array
+        for (ChartPanel panel : chartPanels) {
+            add(panel);
         }
     }
 
     public void refreshDataPeriod(LocalDate start, LocalDate end) {
         List<DailyMetric> filteredMetrics = dashboardData.getMetricsByPeriod(start, end);
         
-        // Update each chart with the filtered data
-        for (Component component : getComponents()) {
-            if (component instanceof ChartPanel) {
-                ChartPanel chartPanel = (ChartPanel) component;
-                BarChart barChart = (BarChart) chartPanel.getChart();
-                barChart.updateData(filteredMetrics);
+        if (filteredMetrics != null) {
+            for (ChartPanel panel : chartPanels) {
+                if (panel.getChart() instanceof BarChart) {
+                    ((BarChart) panel.getChart()).updateData(filteredMetrics);
+                } else if (panel.getChart() instanceof LineChart) {
+                    ((LineChart) panel.getChart()).updateData(filteredMetrics);
+                } else if (panel.getChart() instanceof PieChart) {
+                    ((PieChart) panel.getChart()).updateData(filteredMetrics);
+                }
             }
         }
         revalidate();
