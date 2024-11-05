@@ -9,8 +9,10 @@ import com.dashboard.utils.FileUtils;
 
 public class MenuBar extends JMenuBar {
 
-    public MenuBar() {
+    private JFileChooser fc;
 
+    public MenuBar() {
+        fc = new JFileChooser();
         JMenu fileMenu = new JMenu("Data");
 
         JMenuItem loadData = new JMenuItem("Load Data Folder");
@@ -28,15 +30,14 @@ public class MenuBar extends JMenuBar {
     }
 
     private void selectDataFolder() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        int result = fileChooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFolder = fileChooser.getSelectedFile();
+
+        int returnVal = fc.showOpenDialog(this.getParent());
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
             try {
                 FileUtils.showLoadingIndicator(true, this);
-                DataLoader.loadDashboardData(selectedFolder.getAbsolutePath());
-                JOptionPane.showMessageDialog(this, "Data loaded successfully.");
+                DataLoader.loadDashboardData(file);
+                JOptionPane.showMessageDialog(this.getParent(), "Data loaded successfully.");
                 FileUtils.showLoadingIndicator(false, this);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error loading data: " + e.getMessage(), "Error",

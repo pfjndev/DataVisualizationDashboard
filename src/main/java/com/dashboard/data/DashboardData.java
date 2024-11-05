@@ -9,8 +9,8 @@ public class DashboardData {
     private final List<DailyMetric> allDailyMetrics;
     private final List<SatisfactionScore> allSatisfactionScores;
 
-    private final String defaultDirectory = "src/resources/dataFiles";
-    private String userDirectory = System.getProperty("user.dir"); // User chosen directory path
+    private final String defaultDirectory = "src/resources/dataFiles/January_Dashboard_Data.xlsx";
+    private String userDirectory = "";
 
     public DashboardData() {
         this.monthlyData = new HashMap<>();
@@ -19,7 +19,7 @@ public class DashboardData {
     }
     
     public String getDirectoryPath() {
-        return userDirectory != null ? userDirectory : defaultDirectory;
+        return userDirectory.isEmpty() ? defaultDirectory : userDirectory;
     }
 
     public void setDirectoryPath(String path) {

@@ -9,25 +9,18 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class DataLoader {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-    public static DashboardData loadDashboardData(String directoryPath) {
+    public static DashboardData loadDashboardData(File file) {
         DashboardData dashboardData = new DashboardData();
-        File folder = new File(directoryPath);
-        // Load all .xlsx files in the directory
-        if (folder.exists() && folder.isDirectory()) {
-            // Retain last used directory for future use
-            dashboardData.setDirectoryPath(directoryPath);
-            for (File file : Objects.requireNonNull(folder.listFiles())) {
-                if (file.getName().endsWith(".xlsx")) {
-                    MonthlyData monthlyData = loadMonthlyData(file);
-                    dashboardData.addMonthlyData(getMonthFromFileName(file.getName()), monthlyData);
-                }
-            }
-        }
+        dashboardData.setDirectoryPath(file.getAbsolutePath());
+        
+        // Load the monthly data from the file
+        MonthlyData monthlyData = loadMonthlyData(file);
+        dashboardData.addMonthlyData(getMonthFromFileName(file.getName()), monthlyData);
+
         return dashboardData;
     }
 
@@ -51,8 +44,7 @@ public class DataLoader {
                 int customerEffortScore = (int) row.getCell(4).getNumericCellValue();
                 int netPromoterScore = (int) row.getCell(5).getNumericCellValue();
 
-                dailyMetrics.add(new DailyMetric(date, product, avgResponseTime, customerSatisfactionScore,
-                                                 customerEffortScore, netPromoterScore));
+                dailyMetrics.add(new DailyMetric(date, product, avgResponseTime, customerSatisfactionScore, customerEffortScore, netPromoterScore));
             }
 
             // Load Satisfaction Breakdown sheet

@@ -13,7 +13,7 @@ public class LineChart extends JComponent {
 
     public LineChart(List<DailyMetric> dailyMetric) {
         // Set preferred size based on parent panel dimentions
-        setPreferredSize(new Dimension(getParent().getWidth() / 2, getParent().getHeight() / 2));
+        setPreferredSize(new Dimension(getWidth() / 2, getHeight() / 2));
 
         this.data = dailyMetric;
     }

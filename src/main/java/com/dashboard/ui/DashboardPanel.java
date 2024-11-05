@@ -24,7 +24,7 @@ public class DashboardPanel extends JPanel {
     public DashboardPanel(DashboardData dashboardData) {
         this.dashboardData = dashboardData;
         this.chartPanels = new java.util.ArrayList<>();
-        
+
         // Set to full screen
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension minSize = new Dimension(screenSize.width / 4, screenSize.height / 4);
@@ -47,24 +47,29 @@ public class DashboardPanel extends JPanel {
 
     private void loadInitialData() {
         if (dashboardData != null && dashboardData.getDirectoryPath() != null) {
-            // Load data from default folder
-            String folderPath = dashboardData.getDirectoryPath();
-            File folder = new File(folderPath);
-
-            if (folder.exists() && folder.isDirectory()) {
-                this.dashboardData = DataLoader.loadDashboardData(folderPath);
+            // Load data from default file
+            File file = new File(dashboardData.getDirectoryPath());
+            
+            if (file.exists()) {
+                try {
+                    this.dashboardData = DataLoader.loadDashboardData(file);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Error loading data: " + e.getMessage(), "Error",
+                                                JOptionPane.ERROR_MESSAGE);
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Data files not found. Please load data manually.", 
                                             "File Not Found", JOptionPane.WARNING_MESSAGE);
             }
-        }/* else {
-            JOptionPane.showMessageDialog(this, "Data files not found. Please load data manually.", 
-                                        "File Not Found", JOptionPane.WARNING_MESSAGE);
-        } */
+        }
     }
 
     private void initCharts() {
-        MonthlyData januaryData = dashboardData.getMonthlyData("January");
+        List<DailyMetric> monthDailyMetrics = dashboardData.getMetricsByPeriod(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 4, 30));
+        /* MonthlyData februaryData = dashboardData.getMonthlyData("February");
+        MonthlyData marchData = dashboardData.getMonthlyData("March");
+        MonthlyData aprilData = dashboardData.getMonthlyData("April"); */
+
         Dimension dimension;
         int currentSize = chartPanels.size();
         
@@ -78,20 +83,19 @@ public class DashboardPanel extends JPanel {
             chartPanels.clear();
         }
 
-        if (januaryData != null) {
-            List<DailyMetric> metrics = januaryData.getDailyMetrics();
+        if (monthDailyMetrics != null) {
 
-            BarChart barChart = new BarChart(metrics);
+            BarChart barChart = new BarChart(monthDailyMetrics);
             ChartPanel barChartPanel = new ChartPanel(barChart, dimension);
             chartPanels.add(barChartPanel);
 
-            LineChart lineChart = new LineChart(metrics);
+            /* LineChart lineChart = new LineChart(monthDailyMetrics);
             ChartPanel lineChartPanel = new ChartPanel(lineChart, dimension);
             chartPanels.add(lineChartPanel);
 
-            PieChart pieChart = new PieChart(metrics);
+            PieChart pieChart = new PieChart(monthDailyMetrics);
             ChartPanel pieChartPanel = new ChartPanel(pieChart, dimension);
-            chartPanels.add(pieChartPanel);
+            chartPanels.add(pieChartPanel); */
         }
 
         // Add all the panels in the array
