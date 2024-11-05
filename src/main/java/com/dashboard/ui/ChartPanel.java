@@ -7,9 +7,9 @@ import java.awt.*;
 public class ChartPanel extends JPanel {
     private final JComponent chart;
 
-    public ChartPanel(JComponent chart) {
+    public ChartPanel(JComponent chart, Dimension dimension) {
         this.chart = chart;
-        setPreferredSize(new Dimension(400, 300));
+        setPreferredSize(dimension);
         setLayout(new BorderLayout());
         // Add a border around the panel
         setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));

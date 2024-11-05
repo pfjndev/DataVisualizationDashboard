@@ -17,16 +17,14 @@ public class DashboardFrame extends JFrame {
         setJMenuBar(menuBar);
         add(dashboardPanel, BorderLayout.CENTER);
         
-        // Set title and basic properties
-        setSize(1200, 800);
         // Exit the application when the window is closed
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // Center the window
-        setLocationRelativeTo(null);
         // Use the system look and feel
         setDefaultLookAndFeelDecorated(true);
         // Allow resizing
         setResizable(true);
+        // Center the window
+        setLocationRelativeTo(null);
 
         setBackground(Color.BLACK);
 

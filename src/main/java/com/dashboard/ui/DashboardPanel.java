@@ -25,6 +25,16 @@ public class DashboardPanel extends JPanel {
         this.dashboardData = dashboardData;
         this.chartPanels = new java.util.ArrayList<>();
         
+        // Set to full screen
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension minSize = new Dimension(screenSize.width / 4, screenSize.height / 4);
+
+        this.setSize(screenSize.width, screenSize.height);
+        this.setPreferredSize(screenSize);
+        
+        this.setMinimumSize(minSize);
+        this.setMaximumSize(screenSize);
+
         this.setBackground(Color.BLACK);
         GridLayout layout = new GridLayout(2, 2);
         this.setLayout(layout);
@@ -55,20 +65,32 @@ public class DashboardPanel extends JPanel {
 
     private void initCharts() {
         MonthlyData januaryData = dashboardData.getMonthlyData("January");
+        Dimension dimension;
+        int currentSize = chartPanels.size();
         
+        if (currentSize < 1) {
+            // Create a new panel for each chart
+            dimension = new Dimension(DashboardPanel.WIDTH / 2, DashboardPanel.HEIGHT / 2);
+        } else {
+            // Create a new panel for each chart
+            dimension = new Dimension(DashboardPanel.WIDTH / currentSize, DashboardPanel.HEIGHT / currentSize);
+            // Clear the existing panels
+            chartPanels.clear();
+        }
+
         if (januaryData != null) {
             List<DailyMetric> metrics = januaryData.getDailyMetrics();
-            
+
             BarChart barChart = new BarChart(metrics);
-            ChartPanel barChartPanel = new ChartPanel(barChart);
+            ChartPanel barChartPanel = new ChartPanel(barChart, dimension);
             chartPanels.add(barChartPanel);
 
             LineChart lineChart = new LineChart(metrics);
-            ChartPanel lineChartPanel = new ChartPanel(lineChart);
+            ChartPanel lineChartPanel = new ChartPanel(lineChart, dimension);
             chartPanels.add(lineChartPanel);
 
             PieChart pieChart = new PieChart(metrics);
-            ChartPanel pieChartPanel = new ChartPanel(pieChart);
+            ChartPanel pieChartPanel = new ChartPanel(pieChart, dimension);
             chartPanels.add(pieChartPanel);
         }
 
