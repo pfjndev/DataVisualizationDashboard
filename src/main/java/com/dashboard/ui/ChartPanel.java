@@ -12,7 +12,7 @@ public class ChartPanel extends JPanel {
         setPreferredSize(new Dimension(400, 300));
         setLayout(new BorderLayout());
         // Add a border around the panel
-        setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 
         add(chart, BorderLayout.CENTER);
     }
