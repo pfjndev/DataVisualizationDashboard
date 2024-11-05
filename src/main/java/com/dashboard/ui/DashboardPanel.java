@@ -6,6 +6,7 @@ import com.dashboard.data.DailyMetric;
 import com.dashboard.data.DashboardData;
 import com.dashboard.data.DataLoader;
 import com.dashboard.data.MonthlyData;
+
 import com.dashboard.graphics.visualizations.BarChart;
 import com.dashboard.graphics.visualizations.LineChart;
 import com.dashboard.graphics.visualizations.PieChart;
@@ -20,23 +21,36 @@ public class DashboardPanel extends JPanel {
     // List of panels and their respective charts
     private List<ChartPanel> chartPanels;
 
-    public DashboardPanel() {
-        setLayout(new GridLayout(2, 2));
+    public DashboardPanel(DashboardData dashboardData) {
+        this.dashboardData = dashboardData;
+        this.chartPanels = new java.util.ArrayList<>();
+        
+        this.setBackground(Color.BLACK);
+        GridLayout layout = new GridLayout(2, 2);
+        this.setLayout(layout);
+        layout.setHgap(10);
+        layout.setVgap(10);
+
         loadInitialData();
         initCharts();
     }
 
     private void loadInitialData() {
-        // Load data from default folder
-        String folderPath = dashboardData.getDirectoryPath();
-        File folder = new File(folderPath);
+        if (dashboardData != null && dashboardData.getDirectoryPath() != null) {
+            // Load data from default folder
+            String folderPath = dashboardData.getDirectoryPath();
+            File folder = new File(folderPath);
 
-        if (folder.exists() && folder.isDirectory()) {
-            this.dashboardData = DataLoader.loadDashboardData(folderPath);
-        } else {
+            if (folder.exists() && folder.isDirectory()) {
+                this.dashboardData = DataLoader.loadDashboardData(folderPath);
+            } else {
+                JOptionPane.showMessageDialog(this, "Data files not found. Please load data manually.", 
+                                            "File Not Found", JOptionPane.WARNING_MESSAGE);
+            }
+        }/* else {
             JOptionPane.showMessageDialog(this, "Data files not found. Please load data manually.", 
-                                          "File Not Found", JOptionPane.WARNING_MESSAGE);
-        }
+                                        "File Not Found", JOptionPane.WARNING_MESSAGE);
+        } */
     }
 
     private void initCharts() {
