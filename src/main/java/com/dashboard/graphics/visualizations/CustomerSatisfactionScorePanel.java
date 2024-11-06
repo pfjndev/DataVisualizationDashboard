@@ -44,10 +44,14 @@ public class CustomerSatisfactionScorePanel extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
-        // Background color and rounded corners 
-        g2d.setColor(new Color(40, 44, 52)); // Dark background for modern look
-        RoundRectangle2D.Double roundedRectangle = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
-        g2d.fill(roundedRectangle);
+        int width = getWidth();
+        int height = getHeight();
+
+        // Background gradient
+        GradientPaint background = new GradientPaint(0, 0, new Color(30, 30, 30), width, height, new Color(60, 60, 60));
+        g2d.setPaint(background);
+        RoundRectangle2D.Double bg = new RoundRectangle2D.Double(0, 0, width, height, 20, 20);
+        g2d.fill(bg);
         
         // Draw the gauge arc
         int arcDiameter = Math.min(getWidth() / 2, getHeight() / 2) - 20;

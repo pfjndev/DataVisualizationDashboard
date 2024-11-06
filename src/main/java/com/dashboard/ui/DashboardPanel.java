@@ -10,6 +10,7 @@ import com.dashboard.graphics.visualizations.AverageResponseTimeOverMonthPanel;
 import com.dashboard.graphics.visualizations.AverageResponseTimePanel;
 import com.dashboard.graphics.visualizations.BarChart;
 import com.dashboard.graphics.visualizations.CSATBreakdownPanel;
+import com.dashboard.graphics.visualizations.CSATOverMonthPanel;
 import com.dashboard.graphics.visualizations.CustomerSatisfactionScorePanel;
 import com.dashboard.graphics.visualizations.LineChart;
 import com.dashboard.graphics.visualizations.PieChart;
@@ -111,7 +112,7 @@ public class DashboardPanel extends JPanel {
         CSATBreakdownPanel csatBreakdownPanel = new CSATBreakdownPanel(csatData);
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.gridwidth = 2;
+        gbc.gridwidth = 1;
         gbc.gridheight = 1;
         gbc.weightx = 0.6;
         gbc.weighty = 0.3;
@@ -120,15 +121,28 @@ public class DashboardPanel extends JPanel {
         // Updated Average Response Time Over Month Panel
         double[] responseTimes = { 10.5, 12.0, 8.7, 9.8, 11.2, 10.1, 9.5, 8.9, 10.3, 11.0, 9.7, 10.2 };
         AverageResponseTimeOverMonthPanel responseTimePanel = new AverageResponseTimeOverMonthPanel(responseTimes);
-        gbc.gridx = 2;
+        gbc.gridx = 1;
         gbc.gridy = 2;
-        gbc.gridwidth = 2;
+        gbc.gridwidth = 1;
         gbc.gridheight = 1;
         gbc.weightx = 0.6;
         gbc.weighty = 0.3;
         add(responseTimePanel, gbc);
+
+        // CSAT Over Month Panel
+        double[] csatScores = { 85, 20, 75, 40 };
+        CSATOverMonthPanel csatOverMonthPanel = new CSATOverMonthPanel(csatScores);
+        gbc.gridx = 2;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        gbc.gridheight = 1;
+        gbc.weightx = 0.3;
+        gbc.weighty = 0.3;
+        add(csatOverMonthPanel, gbc);
+
         //loadInitialData();
         //initCharts();
+
     }
 
     private void loadInitialData() {

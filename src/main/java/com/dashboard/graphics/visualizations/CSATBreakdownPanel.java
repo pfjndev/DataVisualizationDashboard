@@ -20,16 +20,17 @@ public class CSATBreakdownPanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        // Background with rounded corners
-        g2d.setColor(new Color(40, 44, 52));  // Dark background for a modern look
-        RoundRectangle2D.Double background = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20);
-        g2d.fill(background);
-
+        
         int width = getWidth();
         int height = getHeight();
         int barWidth = width / categories.length / 2;
 
+        // Background gradient
+        GradientPaint background = new GradientPaint(0, 0, new Color(30, 30, 30), width, height, new Color(60, 60, 60));
+        g2d.setPaint(background);
+        RoundRectangle2D.Double bg = new RoundRectangle2D.Double(0, 0, width, height, 20, 20);
+        g2d.fill(bg);
+        
         // Title
         g2d.setColor(Color.WHITE);
         g2d.setFont(new Font("Arial", Font.BOLD, 18));
